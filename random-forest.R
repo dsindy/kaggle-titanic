@@ -13,7 +13,14 @@ survivors <- passengers[survivors.idx,]
 doomed <- passengers[-survivors.idx,]
 
 # Factorize!
-passengers$Survived <- factor(passengers$Survived)
+prepFeatures <- function(df) {
+  df$Survived <- factor(df$Survived)
+  df$Sex <- factor(df$Sex)
+  df$Pclass <- factor(df$Pclass)
+  df$Age[is.na(df$Age)] <- mean(df$Age, na.rm=T)
+  return(df)
+}
+passengers <- prepFeatures(passengers)
 
 # Sample ggplot2-based plots for exploratory analysis
 print(qplot(Sex, data=passengers, fill=Survived))
@@ -32,6 +39,8 @@ model <- trainForestModel(passengers, c())
 testdata <- read.csv(paste(getwd(), "/data/test.csv", sep=""),
                      comment.char="", quote="\"", sep=",", header=TRUE, stringsAsFactors=FALSE,
                      colClasses=c("integer", "integer", "character", "character", "numeric", "integer", "integer", "character", "numeric", "character", "character"))
+
+testdata <- prepFeatures(testdata)
 
 # And predict results
 prediction <- predict(model, newdata=testdata, type="class")
