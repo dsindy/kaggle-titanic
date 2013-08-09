@@ -7,6 +7,8 @@ passengers <- read.csv(paste(getwd(), "/data/train.csv", sep=""),
                        comment.char="", quote="\"", sep=",", header=TRUE, stringsAsFactors=FALSE,
                        colClasses=c("integer", "integer", "integer", "character", "character", "numeric", "integer", "integer", "character", "numeric", "character", "character"))
 
+passengers$Survived <- factor(passengers$Survived)
+
 # Let's get some stats on the surivors & doomed
 survivors.idx <- which(passengers$Survived == T)
 survivors <- passengers[survivors.idx,]
@@ -14,7 +16,6 @@ doomed <- passengers[-survivors.idx,]
 
 # Factorize!
 prepFeatures <- function(df) {
-  df$Survived <- factor(df$Survived)
   df$Sex <- factor(df$Sex)
   df$Pclass <- factor(df$Pclass)
   df$Age[is.na(df$Age)] <- mean(df$Age, na.rm=T)
