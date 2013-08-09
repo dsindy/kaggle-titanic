@@ -47,7 +47,7 @@ testdata <- prepFeatures(testdata)
 prediction <- predict(model, newdata=testdata, type="class")
 
 # And let's write our prediction results
-out.frame <- data.frame(PassengerId=testdata$PassengerId, survived=as.logical(prediction)+0)
+out.frame <- data.frame(PassengerId=testdata$PassengerId, survived=prediction)
 
 # TODO - if there are any NAs let's assume they didn't survive for now
 out.frame$survived[is.na(out.frame$survived)] <- 0
