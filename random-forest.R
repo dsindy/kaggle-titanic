@@ -12,6 +12,9 @@ survivors.idx <- which(passengers$Survived == T)
 survivors <- passengers[survivors.idx,]
 doomed <- passengers[-survivors.idx,]
 
+# Factorize!
+passengers$Survived <- factor(passengers$Survived)
+
 # Sample ggplot2-based plots for exploratory analysis
 print(qplot(Sex, data=passengers, fill=Survived))
 print(qplot(Fare, data=passengers, colour=Survived, geom="density"))
